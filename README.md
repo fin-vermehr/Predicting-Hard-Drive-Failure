@@ -1,3 +1,5 @@
+See: `Replication_Predicting_Disk_Replacement_towards_Reliable_Data_Centers.ipynb` for implementation!
+
 # Discussion
  
 ## What are the most time-consuming or labor-intensive aspects of the replication process? How could we accelerate this part of the development?
