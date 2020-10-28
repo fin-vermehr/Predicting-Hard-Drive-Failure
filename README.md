@@ -1,5 +1,7 @@
 See: `Replication_Predicting_Disk_Replacement_towards_Reliable_Data_Centers.ipynb` for implementation!
 
+Paper: https://www.kdd.org/kdd2016/papers/files/adf0849-botezatuA.pdf
+
 # Discussion
  
 ## What are the most time-consuming or labor-intensive aspects of the replication process? How could we accelerate this part of the development?
@@ -26,7 +28,7 @@ An edge-case which even occurred in the BackBlaze dataset is the addition or rem
  
 The key limitation of this algorithm is the necessity for a large window size. The median of all change points per SMART attribute is used to determine the beginning of the window. This leads to some windows being 70 time steps long, requiring the model to have to have been running for 70 days, before the algorithm can be applied to it.
  
-The base-case solution for this would be to choose an arbitrary and relatively small window size. This would eliminate the most computationally expensive stage of this algorithm and allow it to be applied to hard drives that haven'€t operated for as long. However doing some quick analysis, I reduced the window size to 10 for each SMART attribute, and thereby decreased the f1 score by about 3\%. 
+The base-case solution for this would be to choose an arbitrary and relatively small window size. This would eliminate the most computationally expensive stage of this algorithm and allow it to be applied to hard drives that haven'â‚¬t operated for as long. However doing some quick analysis, I reduced the window size to 10 for each SMART attribute, and thereby decreased the f1 score by about 3\%. 
  
 The more advanced solution would be to use a variable length encoding LSTM network. The large advantage would be that it:
 1. Can operate on a sequence of any length.
