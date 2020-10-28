@@ -30,17 +30,17 @@ The more advanced solution would be to use a variable length encoding LSTM netwo
 1. Can operate on a sequence of any length.
 2. Can capture higher order patterns (like periodicity) unlike simple exponential smoothing.
  
-Another major limitation (as mentioned in the paper) is exponential smoothing. It assumes that each subsequent time-step is more important (i.e that $S_t$ is less important than $S_{t+1}$). This assumption does not necessarily hold if for example a change in periodicity is indicative of failure.
+Another major limitation (as mentioned in the paper) is exponential smoothing. It assumes that each subsequent time-step is more important (i.e that $$S_t$$ is less important than $$S_{t+1}$$). This assumption does not necessarily hold if for example a change in periodicity is indicative of failure.
  
 The causal inference algorithm to detect change points in the data is very expensive, and not particularly reliable. I re-ran the algorithm, initialized with a different random seed on the same data, and got wildly different results.
  
 In the paper they downsample the healthy dataset by fitting Kmeans to it and choosing the data samples that are closest to a centroid. A problem is that the Kmeans algorithm does not necessarily fit a spherical cluster to the dataset; the clusters can also be elliptical. By just taking the distance to the centroid, you may choose a point along a dimension which has very little expected variance, and thus is not representative of the cluster (see picture below where the blue circle is the cluster, and the two dots are training samples). Instead you should use mahalanobis distance, which takes the variance along each dimension into account.
  
-![cluster_illustration.png](TODO)
+![cluster_illustration.png](https://github.com/fin-vermehr/Replication-Predicting-Disk-Replacement-towards-Reliable-Data-Centers/blob/main/cluster_illustration.png)
  
 ## What are other avenues of research and modification to improve performance?
  
-A major research avenue to pursue is creating better, richer representations. As discussed above, this would most likely entail using LSTM networks. At the moment, the classification accuracy does not inform the compact representation mechanism. In LSTM or CNN networks (both of which are very valid approaches to this problem) the classification loss adjusts the encoding mechanism. In our case the smoothing parameter $\alpha$ is determined through MLE. One could treat it as a tuneable parameter, and re-run the hyper-parameter tuning session multiple times. For this architecture that would be prohibitively expensive though. In networks, the gradient of the loss is used to adjust all the encoding parameters, making it a lot more powerful.
+A major research avenue to pursue is creating better, richer representations. As discussed above, this would most likely entail using LSTM networks. At the moment, the classification accuracy does not inform the compact representation mechanism. In LSTM or CNN networks (both of which are very valid approaches to this problem) the classification loss adjusts the encoding mechanism. In our case the smoothing parameter $$\alpha$$ is determined through MLE. One could treat it as a tuneable parameter, and re-run the hyper-parameter tuning session multiple times. For this architecture that would be prohibitively expensive though. In networks, the gradient of the loss is used to adjust all the encoding parameters, making it a lot more powerful.
  
 Another important topic is to look more into down-sampling techniques. I do not understand why you would keep training samples that are closest to a centroid. My understanding is that that would over-sample similar data and not provide the model with a training set that is representative of the true data distribution. Instead you should sample from the area of the cluster, while disrespecting its density. This would avoid over-sampling nearly identical data-points.
  
